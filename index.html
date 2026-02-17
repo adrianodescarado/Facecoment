@@ -1,65 +1,51 @@
 FACEBOOK COMENTÁRIOS
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Aplicativo 365 Receitas de Bolos</title>
+<title>Depoimentos - Aplicativo 365 Receitas de Bolos</title>
 
 <style>
 
 body{
-font-family:Helvetica,Arial,sans-serif;
+font-family: Helvetica, Arial, sans-serif;
 background:#f0f2f5;
 margin:0;
 padding:0;
 }
 
-.app-container{
+.container{
 max-width:600px;
 margin:auto;
 background:white;
-min-height:100vh;
+padding:15px;
 }
 
-.app-header{
-background:#1877f2;
-color:white;
-padding:16px;
-font-size:20px;
+.title{
+font-size:22px;
 font-weight:bold;
-text-align:center;
+margin-bottom:5px;
 }
 
-.app-sub{
-padding:12px;
-text-align:center;
+.subtitle{
+color:#65676b;
 font-size:15px;
-color:#333;
+margin-bottom:15px;
 }
 
-.app-highlight{
+.highlight{
 color:#1877f2;
 font-weight:bold;
-}
-
-.fb-wrapper{
-padding:12px;
 }
 
 .fb-header{
 display:flex;
 justify-content:space-between;
-font-size:14px;
 color:#65676b;
+font-size:14px;
 margin-bottom:10px;
-}
-
-.fb-title{
-font-weight:600;
-color:#050505;
 }
 
 .fb-comment{
@@ -67,7 +53,7 @@ display:flex;
 margin-bottom:14px;
 opacity:0;
 transform:translateY(10px);
-transition:.4s;
+transition:all .4s ease;
 }
 
 .fb-comment.show{
@@ -88,23 +74,24 @@ flex:1;
 
 .fb-bubble{
 background:#f0f2f5;
-padding:8px 12px;
 border-radius:18px;
+padding:8px 12px;
 }
 
 .fb-name{
-font-weight:600;
+font-weight:bold;
 font-size:13px;
 }
 
 .fb-text{
 font-size:14px;
+margin-top:2px;
 }
 
 .fb-meta{
 font-size:12px;
 color:#65676b;
-margin-top:2px;
+margin-top:3px;
 }
 
 .fb-meta span{
@@ -124,14 +111,14 @@ margin-top:2px;
 
 .fb-replies{
 margin-left:44px;
-margin-top:6px;
+margin-top:5px;
 }
 
 .fb-load{
-cursor:pointer;
-color:#65676b;
-font-size:14px;
 margin-top:10px;
+color:#65676b;
+cursor:pointer;
+font-size:14px;
 }
 
 .fb-load:hover{
@@ -143,65 +130,33 @@ color:#1877f2;
 margin-left:4px;
 }
 
-.install-btn{
-
-background:#42b72a;
-color:white;
-padding:14px;
-text-align:center;
-margin:16px;
-border-radius:8px;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
-
-}
-
-.install-btn:hover{
-
-background:#36a420;
-
-}
-
 </style>
 
 </head>
 <body>
 
-<div class="app-container">
+<div class="container">
 
-<div class="app-header">
-Aplicativo 365 Receitas de Bolos
+<div class="title">
+Veja o que estão falando sobre o aplicativo
 </div>
 
-<div class="app-sub">
-Acesso completo a <span class="app-highlight">365 receitas sem açúcar, sem lactose e sem glúten</span><br>
-Não é ebook. É um aplicativo completo.
+<div class="subtitle">
+Usuários que já estão usando o <span class="highlight">aplicativo com acesso às 365 receitas completas</span>
 </div>
-
-<div class="install-btn">
-LIBERAR ACESSO AO APLICATIVO
-</div>
-
-
-<div class="fb-wrapper">
 
 <div class="fb-header">
-
-<div class="fb-title">Comentários</div>
-
+<div><strong>Comentários</strong></div>
 <div>Mais relevantes ▼</div>
-
 </div>
 
-<div id="fbComments"></div>
+<div id="comments"></div>
 
-<div class="fb-load" onclick="loadMore()">Ver mais comentários</div>
-
+<div class="fb-load" onclick="loadMore()">
+Ver mais comentários
 </div>
 
 </div>
-
 
 <script>
 
@@ -235,35 +190,41 @@ const names=[
 
 const texts=[
 
-"Eu achei que era ebook, mas é um aplicativo com as 365 receitas. Muito melhor",
+"Eu achei que era ebook, mas é um aplicativo com todas as 365 receitas. Muito melhor",
 
 "O aplicativo é muito mais fácil de usar que ebook",
 
-"Já fiz várias receitas e funcionam perfeitamente",
+"Já testei várias receitas dentro do aplicativo e funcionam perfeitamente",
 
-"Uso todos os dias",
+"Uso direto no celular. Muito prático",
+
+"O aplicativo é completo, tem todas as 365 receitas organizadas",
+
+"Melhor que ebook porque é só abrir e usar",
 
 "Vale muito a pena",
 
-"Aplicativo completo",
+"Aplicativo muito fácil de usar",
 
-"Não precisa baixar PDF, tudo dentro do app",
+"Já fiz várias receitas e ficaram ótimas",
 
-"Melhor que ebook com certeza",
+"Não precisa baixar PDF, é tudo dentro do aplicativo",
 
-"As receitas são organizadas",
+"Muito melhor que ebook",
 
-"Muito fácil de usar",
+"Recomendo muito esse aplicativo",
 
-"App perfeito",
+"Estou usando todos os dias",
 
-"Funciona mesmo",
+"App excelente",
 
-"Recomendo muito",
+"Perfeito pra quem tem restrição alimentar",
 
-"Meu favorito",
+"Estou amando esse aplicativo",
 
-"Simples e rápido"
+"Simples e funcional",
+
+"Funciona mesmo"
 
 ];
 
@@ -281,7 +242,7 @@ return "https://randomuser.me/api/portraits/men/"+Math.floor(Math.random()*90)+"
 
 function time(){
 
-const t=["Agora mesmo","1 min","5 min","12 min","1 h","2 h","3 h"];
+const t=["Agora mesmo","1 min","3 min","5 min","12 min","25 min","1 h","2 h","4 h"];
 
 return t[Math.floor(Math.random()*t.length)];
 
@@ -290,23 +251,23 @@ return t[Math.floor(Math.random()*t.length)];
 
 function likes(){
 
-return Math.floor(Math.random()*90)+1;
+return Math.floor(Math.random()*97)+3;
 
 }
 
 
 function verified(){
 
-return Math.random()<0.2;
+return Math.random()<0.18;
 
 }
 
 
-let visible=0;
 let generated=[];
+let visible=0;
 
 
-function generate(){
+function generateComments(){
 
 for(let i=0;i<50;i++){
 
@@ -324,7 +285,7 @@ likes:likes(),
 
 verified:verified(),
 
-replies:Math.random()<0.4
+replies:Math.random()<0.35
 
 ?
 
@@ -332,9 +293,9 @@ replies:Math.random()<0.4
 
 name:names[Math.floor(Math.random()*names.length)],
 
-avatar:avatar(i+50),
+avatar:avatar(i+100),
 
-text:"Também estou usando esse aplicativo e é excelente",
+text:"Também estou usando o aplicativo e é excelente",
 
 time:time(),
 
@@ -353,7 +314,7 @@ likes:likes()
 }
 
 
-function create(c){
+function createComment(c){
 
 let verifiedIcon=c.verified?'<span class="fb-verified">✔</span>':"";
 
@@ -451,13 +412,13 @@ ${repliesHTML}
 
 function loadMore(){
 
-let container=document.getElementById("fbComments");
+const container=document.getElementById("comments");
 
 for(let i=0;i<4;i++){
 
 if(visible>=generated.length) return;
 
-container.innerHTML+=create(generated[visible]);
+container.innerHTML+=createComment(generated[visible]);
 
 setTimeout(()=>{
 
@@ -485,7 +446,7 @@ el.innerText="Curtido";
 }
 
 
-generate();
+generateComments();
 
 loadMore();
 
