@@ -1,0 +1,495 @@
+FACEBOOK COMENTÁRIOS
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Aplicativo 365 Receitas de Bolos</title>
+
+<style>
+
+body{
+font-family:Helvetica,Arial,sans-serif;
+background:#f0f2f5;
+margin:0;
+padding:0;
+}
+
+.app-container{
+max-width:600px;
+margin:auto;
+background:white;
+min-height:100vh;
+}
+
+.app-header{
+background:#1877f2;
+color:white;
+padding:16px;
+font-size:20px;
+font-weight:bold;
+text-align:center;
+}
+
+.app-sub{
+padding:12px;
+text-align:center;
+font-size:15px;
+color:#333;
+}
+
+.app-highlight{
+color:#1877f2;
+font-weight:bold;
+}
+
+.fb-wrapper{
+padding:12px;
+}
+
+.fb-header{
+display:flex;
+justify-content:space-between;
+font-size:14px;
+color:#65676b;
+margin-bottom:10px;
+}
+
+.fb-title{
+font-weight:600;
+color:#050505;
+}
+
+.fb-comment{
+display:flex;
+margin-bottom:14px;
+opacity:0;
+transform:translateY(10px);
+transition:.4s;
+}
+
+.fb-comment.show{
+opacity:1;
+transform:translateY(0);
+}
+
+.fb-avatar{
+width:36px;
+height:36px;
+border-radius:50%;
+margin-right:8px;
+}
+
+.fb-body{
+flex:1;
+}
+
+.fb-bubble{
+background:#f0f2f5;
+padding:8px 12px;
+border-radius:18px;
+}
+
+.fb-name{
+font-weight:600;
+font-size:13px;
+}
+
+.fb-text{
+font-size:14px;
+}
+
+.fb-meta{
+font-size:12px;
+color:#65676b;
+margin-top:2px;
+}
+
+.fb-meta span{
+margin-right:12px;
+cursor:pointer;
+}
+
+.fb-meta span:hover{
+text-decoration:underline;
+}
+
+.fb-like-count{
+font-size:12px;
+color:#65676b;
+margin-top:2px;
+}
+
+.fb-replies{
+margin-left:44px;
+margin-top:6px;
+}
+
+.fb-load{
+cursor:pointer;
+color:#65676b;
+font-size:14px;
+margin-top:10px;
+}
+
+.fb-load:hover{
+text-decoration:underline;
+}
+
+.fb-verified{
+color:#1877f2;
+margin-left:4px;
+}
+
+.install-btn{
+
+background:#42b72a;
+color:white;
+padding:14px;
+text-align:center;
+margin:16px;
+border-radius:8px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+
+}
+
+.install-btn:hover{
+
+background:#36a420;
+
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="app-container">
+
+<div class="app-header">
+Aplicativo 365 Receitas de Bolos
+</div>
+
+<div class="app-sub">
+Acesso completo a <span class="app-highlight">365 receitas sem açúcar, sem lactose e sem glúten</span><br>
+Não é ebook. É um aplicativo completo.
+</div>
+
+<div class="install-btn">
+LIBERAR ACESSO AO APLICATIVO
+</div>
+
+
+<div class="fb-wrapper">
+
+<div class="fb-header">
+
+<div class="fb-title">Comentários</div>
+
+<div>Mais relevantes ▼</div>
+
+</div>
+
+<div id="fbComments"></div>
+
+<div class="fb-load" onclick="loadMore()">Ver mais comentários</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const names=[
+
+"Ana Clara Martins",
+"Juliana Ferreira",
+"Mariana Souza",
+"Patricia Oliveira",
+"Camila Rodrigues",
+"Fernanda Alves",
+"Roberta Costa",
+"Carla Mendes",
+"Beatriz Ribeiro",
+"Luciana Gomes",
+"Renata Fernandes",
+"Amanda Rocha",
+"Daniela Martins",
+"Paula Freitas",
+"Jessica Carvalho",
+"Lucas Almeida",
+"Rafael Pereira",
+"Bruno Costa",
+"Felipe Rocha",
+"Gabriel Martins",
+"Thiago Souza",
+"Rodrigo Alves"
+
+];
+
+
+const texts=[
+
+"Eu achei que era ebook, mas é um aplicativo com as 365 receitas. Muito melhor",
+
+"O aplicativo é muito mais fácil de usar que ebook",
+
+"Já fiz várias receitas e funcionam perfeitamente",
+
+"Uso todos os dias",
+
+"Vale muito a pena",
+
+"Aplicativo completo",
+
+"Não precisa baixar PDF, tudo dentro do app",
+
+"Melhor que ebook com certeza",
+
+"As receitas são organizadas",
+
+"Muito fácil de usar",
+
+"App perfeito",
+
+"Funciona mesmo",
+
+"Recomendo muito",
+
+"Meu favorito",
+
+"Simples e rápido"
+
+];
+
+
+function avatar(i){
+
+if(i%2==0)
+return "https://randomuser.me/api/portraits/women/"+Math.floor(Math.random()*90)+".jpg";
+
+else
+return "https://randomuser.me/api/portraits/men/"+Math.floor(Math.random()*90)+".jpg";
+
+}
+
+
+function time(){
+
+const t=["Agora mesmo","1 min","5 min","12 min","1 h","2 h","3 h"];
+
+return t[Math.floor(Math.random()*t.length)];
+
+}
+
+
+function likes(){
+
+return Math.floor(Math.random()*90)+1;
+
+}
+
+
+function verified(){
+
+return Math.random()<0.2;
+
+}
+
+
+let visible=0;
+let generated=[];
+
+
+function generate(){
+
+for(let i=0;i<50;i++){
+
+generated.push({
+
+name:names[Math.floor(Math.random()*names.length)],
+
+avatar:avatar(i),
+
+text:texts[Math.floor(Math.random()*texts.length)],
+
+time:time(),
+
+likes:likes(),
+
+verified:verified(),
+
+replies:Math.random()<0.4
+
+?
+
+[{
+
+name:names[Math.floor(Math.random()*names.length)],
+
+avatar:avatar(i+50),
+
+text:"Também estou usando esse aplicativo e é excelente",
+
+time:time(),
+
+likes:likes()
+
+}]
+
+:
+
+[]
+
+});
+
+}
+
+}
+
+
+function create(c){
+
+let verifiedIcon=c.verified?'<span class="fb-verified">✔</span>':"";
+
+let repliesHTML="";
+
+c.replies.forEach(r=>{
+
+repliesHTML+=`
+
+<div class="fb-comment show">
+
+<img class="fb-avatar" src="${r.avatar}">
+
+<div class="fb-body">
+
+<div class="fb-bubble">
+
+<div class="fb-name">${r.name}</div>
+
+<div class="fb-text">${r.text}</div>
+
+</div>
+
+<div class="fb-meta">
+
+<span onclick="like(this)">Curtir</span>
+
+<span>Responder</span>
+
+<span>${r.time}</span>
+
+</div>
+
+<div class="fb-like-count">
+
+👍 ❤️ ${r.likes}
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+
+return `
+
+<div class="fb-comment">
+
+<img class="fb-avatar" src="${c.avatar}">
+
+<div class="fb-body">
+
+<div class="fb-bubble">
+
+<div class="fb-name">${c.name}${verifiedIcon}</div>
+
+<div class="fb-text">${c.text}</div>
+
+</div>
+
+<div class="fb-meta">
+
+<span onclick="like(this)">Curtir</span>
+
+<span>Responder</span>
+
+<span>${c.time}</span>
+
+</div>
+
+<div class="fb-like-count">
+
+👍 ❤️ ${c.likes}
+
+</div>
+
+<div class="fb-replies">
+
+${repliesHTML}
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+function loadMore(){
+
+let container=document.getElementById("fbComments");
+
+for(let i=0;i<4;i++){
+
+if(visible>=generated.length) return;
+
+container.innerHTML+=create(generated[visible]);
+
+setTimeout(()=>{
+
+container.lastChild.classList.add("show");
+
+},50);
+
+visible++;
+
+}
+
+}
+
+
+function like(el){
+
+let likeEl=el.parentElement.nextElementSibling;
+
+let num=parseInt(likeEl.innerText.replace(/\D/g,''))+1;
+
+likeEl.innerText="👍 ❤️ "+num;
+
+el.innerText="Curtido";
+
+}
+
+
+generate();
+
+loadMore();
+
+</script>
+
+</body>
+</html>
